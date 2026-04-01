@@ -14,6 +14,8 @@ The Todo Tracker API is a **RESTful** API. Identify at least **3 specific design
 
 ---
 
+This Api is restful because
+
 ## Question 2 — Separation of Concerns
 
 What problem is caused by mixing data logic and request/response logic in a single file? What does separating them into a model and controller enable? Be specific about what gets harder and what gets easier.
@@ -37,7 +39,8 @@ Below is a `createTodo` function that does everything in one place. For each num
 ```js
 const createTodo = (req, res) => {
   /* 1 */ const { task } = req.body;
-  /* 2 */ if (!task) return res.status(400).send({ message: 'task is required' });
+  /* 2 */ if (!task)
+    return res.status(400).send({ message: 'task is required' });
   /* 3 */ const newTodo = { id: getId(), task, isDone: false };
   /* 4 */ todos.push(newTodo);
   /* 5 */ res.status(201).send(newTodo);
