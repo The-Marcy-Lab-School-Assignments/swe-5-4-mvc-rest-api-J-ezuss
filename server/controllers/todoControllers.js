@@ -50,10 +50,10 @@ module.exports.deleteTodo = (req, res) => {
   const didDelete = todoModel.destroy(Number(id));
 
   if (!didDelete) {
-    res.status(404).send({
+    return res.status(404).send({
       message: `No todo with the id ${id}`,
     });
   }
 
-  res.send(didDelete);
+  res.sendStatus(204);
 };
