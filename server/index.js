@@ -39,7 +39,7 @@ const todos = [
 
 // TODO: GET /api/todos
 // Response: 200, array of all todos
-const listTodos = (req, res) => {
+const listTodo = (req, res) => {
   res.send(todos);
 };
 
@@ -48,12 +48,10 @@ const listTodos = (req, res) => {
 // Error: 404 if no todo with that id
 const findTodo = (req, res) => {
   const { id } = req.params;
-  let todo = todos.find((todo = todo.id === Number(id)));
-  if (!task) {
-    return null;
-  }
+  const todo = todos.find((todo) => todo.id === Number(id));
+
   if (!todo) {
-    res.status(404).send({ message: `no task with that id ${id}` });
+    return res.status(404).send({ message: `no task with that id ${id}` });
   }
   res.send(todo);
 };
@@ -64,8 +62,7 @@ const findTodo = (req, res) => {
 const createTodo = (req, res) => {
   const { task } = req.body;
   if (!task) {
-    res.status(400).send({ message: 'Invalid input' });
-    return;
+    return res.status(400).send({ message: 'Invalid input' });
   }
   const newTask = { id: getId(), task, isDone: false };
   todos.push(newTask);
@@ -99,18 +96,18 @@ const deleteTask = (req, res) => {
     return res.status(404).send({ message: `no task with that id ${id}` });
   }
   todos.splice(taskIndex, 1);
-  res.status(204);
+  return res.status(204).end();
 };
 
-app.get('/api/todos', listTodos);
+app.get('/api/todos', listTodo);
 app.get('/api/todos/:id', findTodo);
-app.get('/api/todos', createTodo);
-app.get('/api/todos/:id', updateTask);
-app.get('/api/todos/:id', deleteTask);
+app.post('/api/todos', createTodo);
+app.patch('/api/todos/:id', updateTask);
+app.delete('/api/todos/:id', deleteTask);
 // TODO: Catch-all handler — send a 404 JSON error for unmatched /api routes,
 // or serve index.html for all other routes (SPA fallback)
 app.use((req, res) => {
-  res.status(404).send({ message: `not found:${req.originalUrl}` });
+  res.status(404).send({ message: `Error Not found: [url]` });
 });
 
 const port = 8080;
